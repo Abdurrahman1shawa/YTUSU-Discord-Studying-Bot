@@ -161,9 +161,9 @@ class bot_functions:
 
         save_cursor = save_conn.cursor()
 
-        save_cursor.execute("""
-        create table if not exists sql11415982.s{} (user_id bigint unique,study_time int,work_time int)
-        """.format(server_id))
+        save_cursor.execute(f"""
+        create table if not exists {os.environ['database']}.s{server_id} (user_id bigint unique,study_time int,work_time int)
+        """)
 
         if timer_type == "study":
 

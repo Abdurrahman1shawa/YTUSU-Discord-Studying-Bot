@@ -32,7 +32,6 @@ servers_settings = bot_functions.init_db()
 def get_cursor():
     global global_conncetion
     print("getting cursor")
-    print(global_conncetion.is_connected())
 
     if global_conncetion.is_connected():
         print("connection is already exist")
@@ -68,10 +67,10 @@ async def tim_start(user_id, server_id, channel_id, timer_duration, break_durati
             print(end-start)
 
         if not info["found"]:
-            cursor.execute("""insert into sql11415982.timers
+            cursor.execute("""insert into {}.timers
             (user_id, server_id, channel_id, timer_date, timer_duration, break_duration, timer_type)
             values ("{}","{}","{}","{}","{}","{}","{}");
-        """.format(user_id, server_id, channel_id, timedt, timer_duration, break_duration, timer_type))
+        """.format(os.environ['database'], user_id, server_id, channel_id, timedt, timer_duration, break_duration, timer_type))
 
             await give_take_role(user_id, server_id, timer_type, "give")
 
@@ -289,7 +288,7 @@ def timer_check():
 
     while True:
 
-        time.sleep(1)
+        time.sleep(60)
 
         if not exthread_conn.is_connected() :
 
@@ -385,11 +384,11 @@ async def on_guild_join(guild):
 
     """.format(guild.id, "&"))
 
-    init_set_cursor.execute("""
+    init_set_cursor.execute(f"""
 
-    create table if not exists sql11415982.s{} (user_id bigint unique,study_time int,work_time int)
+    create table if not exists {os.environ['database']}.s{guild.id} (user_id bigint unique,study_time int,work_time int)
 
-    """.format(guild.id))
+    """)
 
     init_set_cursor.execute("""
 
