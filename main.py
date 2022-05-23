@@ -12,7 +12,6 @@ load_dotenv()
 lock = threading.Lock()
 
 token = os.environ['token']
-
 bot_id = os.environ['bot_id']
 
 client = discord.Client()
